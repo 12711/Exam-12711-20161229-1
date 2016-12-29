@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lsm.mapper.FilmMapper">
+
+	<insert id="insertFilm" parameterType="Film" useGeneratedKeys="true"
+		keyColumn="film_id" keyProperty="filmId">
+
+		insert into film(
+		<trim>
+			<if test="title!=null">title,</if>
+			<if test="description!=null">description,</if>
+			<if test="languageId!=null">language_id</if>
+		</trim>
+		)values(
+		<trim>
+			<if test="title!=null">#{title},</if>
+			<if test="description!=null">#{description},</if>
+			<if test="languageId!=null">#{languageId}</if>
+		</trim>
+		)
+
+	</insert>
+
+	<resultMap type="Film" id="filmMap">
+		<id column="film_id" property="filmId"></id>
+		<result column="description" property="description" />
+		<result column="language_id" property="languageId" />
+	</resultMap>
+
+	<select id="queryByFileName" parameterType="Film" resultMap="filmMap">
+		select film_id,description,language_id from film where title=#{title}
+	</select>
+
+</mapper>
